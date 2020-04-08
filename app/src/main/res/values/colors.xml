@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!--主界面颜色-->
+    <color name="main">#FDF5E6</color>
+    <color name="font">#B22222</color>
+
+    <color name="base_color">#009ad6</color>
+
+    <color name="color_white">#ffffff</color>
+    <color name="color_black">#000000</color>
+</resources>
