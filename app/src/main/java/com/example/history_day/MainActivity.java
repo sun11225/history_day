@@ -33,6 +33,7 @@ import com.example.history_day.ui.HistoryDescActivity;
 import com.google.gson.Gson;
 
 import com.example.history_day.R;
+import com.google.gson.reflect.TypeToken;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -46,6 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     TextView yinliTv, dayTv, weekTv, yangliTv, baijiTv, wuxingTv, chongshaTv, jishenTv, xiongshenTv, yiTv, jiTv;
 
     Historybean historybean;
+    private int year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +145,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         x.http().get(params, new CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+
                 //解析数据
                 LaoHuangLi laoHuangLi = new Gson().fromJson(result, LaoHuangLi.class);
                 LaoHuangLi.ResultBean resultBean = laoHuangLi.getResult();
@@ -221,14 +224,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                //改变老黄历现实的内容
-                String time = year + "-" + (month + 1) + "-" + dayOfMonth;
-                String laoHuangLiURL = ContentURL.getLaoHuangLiURL(time);
-                loadLaoHuangLiData(laoHuangLiURL);
+                if (year < 2020) {
+                    Toast.makeText(getApplicationContext(), "需要管理员权限！", Toast.LENGTH_LONG).show();
+                } else {
+                    //改变老黄历现实的内容
+                    String time = year + "-" + (month + 1) + "-" + dayOfMonth;
+                    String laoHuangLiURL = ContentURL.getLaoHuangLiURL(time);
+                    loadLaoHuangLiData(laoHuangLiURL);
 
-                //改变历史今天数据内容
-                String historyURL = ContentURL.getTadayHistoryURL("1.0", (month + 1), dayOfMonth);
-                loadData(historyURL);
+                    //改变历史今天数据内容
+                    String historyURL = ContentURL.getTadayHistoryURL("1.0", (month + 1), dayOfMonth);
+                    loadData(historyURL);
+                }
             }
 
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -239,10 +246,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onSuccess(String result) {
         mDatas.clear();
+//        List<Historybean.ResultBean> resultBeanList=new Gson().fromJson(result,new TypeToken<List<Historybean.ResultBean>>(){}.getType());
+//        for (Historybean.ResultBean resultBean:resultBeanList){
+//            year = resultBean.getYear();
+//            for (int i=0;i<8;i++){
+//                if (year>1700){
+//                    mDatas.add(resultBeanList.get(i));
+//                }
+//            }
+//        }
         historybean = new Gson().fromJson(result, Historybean.class);
         List<Historybean.ResultBean> list = historybean.getResult();
+
         for (int i = 0; i < 8; i++) {
+
             mDatas.add(list.get(i));
+
         }
         adapter.notifyDataSetChanged();
     }

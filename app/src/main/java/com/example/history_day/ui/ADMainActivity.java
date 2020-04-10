@@ -221,11 +221,11 @@ public class ADMainActivity extends BaseActivity implements View.OnClickListener
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
                 //改变老黄历现实的内容
                 String time = year + "-" + (month + 1) + "-" + dayOfMonth;
                 String laoHuangLiURL = ContentURL.getLaoHuangLiURL(time);
                 loadLaoHuangLiData(laoHuangLiURL);
-
                 //改变历史今天数据内容
                 String historyURL = ContentURL.getTadayHistoryURL("1.0", (month + 1), dayOfMonth);
                 loadData(historyURL);
