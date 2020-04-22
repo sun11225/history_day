@@ -11,11 +11,20 @@
         android:divider="@null"/>
     <ImageButton
         android:id="@+id/main_imgbtn"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@mipmap/icon_calendar"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/calender_bg"
-        android:layout_margin="20dp"/>
+        android:layout_margin="10dp"/>
+    <ImageButton
+        android:id="@+id/main_imgbtn_back"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/umcsdk_return_bg"
+        android:background="@drawable/calender_bg"
+        android:layout_above="@id/main_imgbtn"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"/>
 </RelativeLayout>

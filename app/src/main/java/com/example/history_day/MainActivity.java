@@ -28,17 +28,22 @@ import com.example.history_day.base.BaseActivity;
 import com.example.history_day.base.ContentURL;
 import com.example.history_day.bean.Historybean;
 import com.example.history_day.bean.LaoHuangLi;
+import com.example.history_day.bean.User;
 import com.example.history_day.ui.HistoryActivity;
 import com.example.history_day.ui.HistoryDescActivity;
+import com.example.history_day.ui.LoginActivity;
 import com.google.gson.Gson;
 
 import com.example.history_day.R;
 import com.google.gson.reflect.TypeToken;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private ListView listView;
-    private ImageButton imageButton;
+    private ImageButton imageButton, ibBack;
     private List<Historybean.ResultBean> mDatas;
     private HistoryAdapter adapter;
     private Calendar calendar;
@@ -65,6 +70,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         listView = findViewById(R.id.main_lv);
         imageButton = findViewById(R.id.main_imgbtn);
         imageButton.setOnClickListener(this);
+
+        //退出登录
+        ibBack = findViewById(R.id.main_imgbtn_back);
+        ibBack.setOnClickListener(this);
 
         mDatas = new ArrayList<>();
         adapter = new HistoryAdapter(this, mDatas);
@@ -198,11 +207,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+//        switch (v.getId()){
+//            case R.id.main_imgbtn:
+//                calenderDialog();
+//                break;
+//            case R.id.main_imgbtn_back:
+//                User.logOut();
+//                User user = BmobUser.getCurrentUser(User.class);
+//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                finish();
+//                break;
+//        }
         if (v.getId() == R.id.main_imgbtn) {
             calenderDialog();
             return;
         }
-
+        if (v.getId() == R.id.main_imgbtn_back) {
+            User.logOut();
+            User user = BmobUser.getCurrentUser(User.class);
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            Toast.makeText(getApplicationContext(),"退出登录成功！",Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         String tag = (String) v.getTag();
         if (tag.equals("footer")) {
             Toast.makeText(MainActivity.this, "需要管理员权限！", Toast.LENGTH_LONG).show();
